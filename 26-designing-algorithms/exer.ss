@@ -60,21 +60,33 @@
 ;;; 26.1.1
 ;;; tabulate-div: n -> (listof number)
 ;;; e.g. 10 -> (list 1 2 4 5 10)
+
 (define (tabulate-div n)
-  (define (interval-div alon)
-    (cond [(null? alon) '()]
-          [else (if (divided? n (car alon))
-                    (append
-                     (list (car alon))
-                     (interval-div (cdr alon)))
-                    (interval-div (cdr alon)))]))
-  (let [(intervals (gen-interv n))]
-    (interval-div intervals)))
-(define (gen-interv n)
-  (cond
-   [(= n 0) '()]
-   [else
-    (append (gen-interv (- n 1)) (list n))]))
+  (let [(res '())]
+    (define (iter i)
+      (cond
+       [(> i n) false]
+       [(divided? n i)
+        (set! res (cons i res))
+        (iter (+ i 1))]
+       [else (iter (+ i 1))]))
+    (iter 1)
+    (reverse res)))
+;; (define (tabulate-div n)
+;;   (define (interval-div alon)
+;;     (cond [(null? alon) '()]
+;;           [else (if (divided? n (car alon))
+;;                     (append
+;;                      (list (car alon))
+;;                      (interval-div (cdr alon)))
+;;                     (interval-div (cdr alon)))]))
+;;   (let [(intervals (gen-interv n))]
+;;     (interval-div intervals)))
+;; (define (gen-interv n)
+;;   (cond
+;;    [(= n 0) '()]
+;;    [else
+;;     (append (gen-interv (- n 1)) (list n))]))
 (define (divided? n d)
   (= (remainder n d) 0))
 
