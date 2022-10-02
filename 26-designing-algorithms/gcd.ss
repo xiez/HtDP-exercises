@@ -21,13 +21,18 @@
 
 ;; 26.3.2
 ;; 1. What is a trivially solvable problem?
-;; A:
+;; A: the smaller of the two numbers is 0
 
 ;; 2. What is a corresponding solution?
-;;; A: stop and return true
+;;; A: the result is the larger number.
 
 ;; 3. How do we generate new problems that are more easily solvable than the original problem? Is there one new problem that we generate or are there several?
-;;; A: If the ball is still inside the boundaries, two things must happen. First, the ball must be drawn and cleared from the canvas. Second, the ball must be moved, and then we must do things all over again.
+;;; A: (gcd larger smaller) = (gcd smaller (remainder larger smaller))
 
 ;; 4.Is the solution of the given problem the same as the solution of (one of) the new problems? Or, do we need to combine the solutions to create a solution for the original problem? And, if so, do we need anything from the original problem data?
 ;; A: YES
+
+;; 26.3.3
+
+;; 26.3.4
+;; one of the two numbers is 0

@@ -20,6 +20,7 @@
   ;; find-route/list : (listof node) node graph  ->  (listof node) or false
   ;; to create a path from some node on lo-originations to destination
   ;; if there is no path, the function produces false
+  (printf "(find-route ~s ~s cyclic-graph)~n" lo-Os D)
   (cond
    ((null? lo-Os) false)
    (else (let ((possible-route (find-route (car lo-Os) D G)))
@@ -32,6 +33,7 @@
   ;; find-route : node node graph  ->  (listof node) or false
   ;; to create a path from origination to destination in G
   ;; if there is no path, the function produces false
+  (printf "(find-route ~s ~s cyclic-graph)~n" origination destination)
   (cond
    ((eq? origination destination) (list destination))
    (else
@@ -61,3 +63,31 @@
          all-nodes)))
 
 (test-on-all-nodes graph)
+
+;; 28.1.5
+(define cyclic-graph
+  '((A (B E))
+    (B (E F))
+    (C (B D))
+    (D ())
+    (E (C F))
+    (F (D G))
+    (G ())))
+
+(find-route 'B 'C cyclic-graph)
+
+;; 28.1.6
+
+(define (find-route origination destination G)
+  ;; find-route : node node graph  ->  (listof node) or false
+  ;; to create a path from origination to destination in G
+  ;; if there is no path, the function produces false
+  (printf "(find-route ~s ~s cyclic-graph)~n" origination destination)
+  (cond
+   ((eq? origination destination) (list destination))
+   (else
+    (let ((possible-route
+           (find-route/list (neighbors origination G) destination G)))
+      (cond
+       ((boolean? possible-route) false)
+       (else (cons origination possible-route)))))))
